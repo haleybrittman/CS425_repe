@@ -1,0 +1,26 @@
+CREATE SCHEMA `reserves` ;
+CREATE TABLE `reserves`.`reserves` (
+  `SID` INT NOT NULL,
+  `BID` INT NOT NULL,
+  `Day` DATE NULL,
+  `Deposit` DECIMAL(10,2) NULL,
+  PRIMARY KEY (`SID`, `BID`),
+  CONSTRAINT `SID`
+    FOREIGN KEY (`SID`)
+    REFERENCES `reserves`.`sailors` (`SID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `BID`
+    FOREIGN KEY (`BID`)
+    REFERENCES `reserves`.`boats` (`BID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+INSERT INTO reserves.reserves (SID, BID, Day, Deposit)  
+VALUES (23, 109, '2014-08-01', 120.00),
+(23, 108, '2014-08-08', 120.00),
+(25, 101, '2014-08-08', 0.00),
+(27, 101, '2014-08-09', 100.00),
+(27, 109, '2014-08-15', 120.00),
+(33, 109, '2014-09-04', 0.00),
+(33, 104, '2014-09-11', 0.00);
