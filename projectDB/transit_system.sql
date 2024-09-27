@@ -302,3 +302,20 @@ INSERT INTO Bus_Stops_Stop_Order (Stop_Name, Location, Route, Stop_Order) VALUES
 ('Stop14', 'LocationN', 14, 14),
 ('Stop15', 'LocationO', 15, 15);
 
+INSERT INTO Bus_Route_Bus_Stops (Stop_name, Route_no) VALUES
+('Stop1', 1),
+('Stop2', 2),
+('Stop3', 3),
+('Stop4', 4),
+('Stop5', 5),
+('Stop6', 6),
+('Stop7', 7),
+('Stop8', 8),
+('Stop9', 9),
+('Stop10', 10),
+('Stop11', 11),
+('Stop12', 12),
+('Stop13', 13),
+('Stop14', 14),
+('Stop15', 15);
+
