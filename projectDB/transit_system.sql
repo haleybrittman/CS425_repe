@@ -395,3 +395,13 @@ JOIN train_stops_time as TST ON
 TL.ColorType = TST.ColorType AND
 TL.Name = TST.Line_Name AND
 TL.Direction = TST.Direction; 
+
+CREATE VIEW BusView as
+ SELECT B.Bus_ID, BR.route_no, BST.Time, BST.ETA
+ from bus as B
+ join bus_bus_route as BBR on
+ b.Bus_ID= bbr.Bus_ID
+ Join bus_route as BR on
+ bbr.Route_no = BR.Route_no
+ Join bus_stops_time as BST on 
+ BBr.route_no = bst.route;
