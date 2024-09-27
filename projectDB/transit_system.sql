@@ -170,3 +170,21 @@ INSERT INTO Bus_Bus_route (Bus_ID, Route_no) VALUES
 (13, 11),
 (14, 4),
 (15, 13);
+
+INSERT INTO Train_stop (Station_Name, Line_Name, ETA, Time) VALUES
+('Station 1', 'Franco Bianco Airport', ADDTIME('08:00:00', '00:10:00'), '08:00:00'),
+('Station 2', 'DLF Airport', ADDTIME('08:15:00', '00:10:00'), '08:15:00'),
+('Station 3', 'Plínio Alarcom Airport', ADDTIME('08:30:00', '00:10:00'), '08:30:00'),
+('Station 4', 'Martubah Airport', ADDTIME('08:45:00', '00:10:00'), '08:45:00'),
+('Station 5', 'Sidney Municipal Airport', ADDTIME('09:00:00', '00:10:00'), '09:00:00'),
+('Station 6', 'Donaldson Airport', ADDTIME('09:15:00', '00:10:00'), '09:15:00'),
+('Station 7', 'Garanhuns Airport', ADDTIME('09:30:00', '00:10:00'), '09:30:00'),
+('Station 8', 'Gorgan Airport', ADDTIME('09:45:00', '00:10:00'), '09:45:00'),
+('Station 9', 'Nyagan Airport', ADDTIME('10:00:00', '00:10:00'), '10:00:00'),
+('Station 10', 'Al Dhafra Air Base', ADDTIME('10:15:00', '00:10:00'), '10:15:00'),
+('Station 11', 'Esler Regional Airport', ADDTIME('10:30:00', '00:10:00'), '10:30:00'),
+('Station 12', 'Phoenix-Mesa-Gateway Airport', ADDTIME('10:45:00', '00:10:00'), '10:45:00'),
+('Station 13', 'Wevelgem Airport', ADDTIME('11:00:00', '00:10:00'), '11:00:00'),
+('Station 14', 'Kugaaruk Airport', ADDTIME('11:15:00', '00:10:00'), '11:15:00'),
+('Station 15', 'Pelaneng Airport', ADDTIME('11:30:00', '00:10:00'), '11:30:00');
+
