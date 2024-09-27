@@ -383,3 +383,15 @@ INSERT INTO Train_Line (Train_ID, ColorType, Name, Direction) VALUES
 (262316789, 'Green', 'Plínio Alarcom', 'North');
 
 CREATE INDEX idx_line_name ON Line(Name);
+
+CREATE VIEW TrainView as 
+Select Train_ID, TL.ColorType, TS.Station_Name, TST.Time
+from train_line as TL
+Join train_stop as TS on 
+TL.ColorType = TS.ColorType AND
+TL.Name = TS.Name AND
+TL.Direction = TS.Direction
+JOIN train_stops_time as TST ON
+TL.ColorType = TST.ColorType AND
+TL.Name = TST.Line_Name AND
+TL.Direction = TST.Direction; 
