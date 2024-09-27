@@ -41,16 +41,17 @@ CREATE TABLE Line (
     PRIMARY KEY (ColorType, Name, Direction)
 );
 
-CREATE INDEX idx_line_name ON Line(Name);
-
 
 
 CREATE TABLE Train_stop (
     Station_Name VARCHAR(100),
-    Line_Name VARCHAR(100),
-    PRIMARY KEY (Station_Name, Line_Name),
-    FOREIGN KEY (Line_Name) REFERENCES Line(Name)
+    ColorType VARCHAR(20),
+    Name VARCHAR(100),
+    Direction VARCHAR(10),
+    PRIMARY KEY (Station_Name, ColorType, Name, Direction),
+    FOREIGN KEY (ColorType, Name, Direction) REFERENCES Line(ColorType, Name, Direction)
 );
+
 
 
 
@@ -85,8 +86,10 @@ CREATE TABLE Line_Train_Stops (
     ColorType VARCHAR(15),
     Name VARCHAR(30),
     Direction VARCHAR(7),
-    Station_Name VARCHAR(30),
-    PRIMARY KEY (ColorType, Name, Direction, Station_Name)
+    Station_Name VARCHAR(100),
+    PRIMARY KEY (ColorType, Name, Direction, Station_Name),
+    FOREIGN KEY (ColorType, Name, Direction) REFERENCES line(ColorType, Name, Direction),
+    FOREIGN KEY (Station_Name) REFERENCES train_stop(Station_Name)
 );
 
 CREATE TABLE Bus_Route_Bus_Stops (
@@ -121,10 +124,12 @@ CREATE TABLE Bus_Stops_Stop_Order (
 CREATE TABLE Train_Stops_Time (
     TID int,
     Station_Name VARCHAR(100),
+    ColorType VARCHAR(20),
     Line_Name VARCHAR(100),
+    Direction VARCHAR(10),
     Time TIME,
     PRIMARY KEY (TID, Station_Name, Line_Name, Time),
-    FOREIGN KEY (Station_Name, Line_Name) REFERENCES Train_stop(Station_Name, Line_Name)
+    FOREIGN KEY (Station_Name, ColorType, Line_Name, Direction) REFERENCES Train_stop(Station_Name, ColorType, Name, Direction)
 );
 
 
@@ -358,3 +363,4 @@ INSERT INTO Line_Train_Stops (ColorType, Name, Direction, Station_Name) VALUES
 ('Violet', 'Kugaaruk', 'West', 'Station 14'),
 ('Yellow', 'Pelaneng', 'East', 'Station 15');
 
+CREATE INDEX idx_line_name ON Line(Name);
