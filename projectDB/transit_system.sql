@@ -101,6 +101,23 @@ VALUES
 (669716397, 15),
 (262316789, 43);
 
+INSERT INTO bus_route (route_no, name, direction) VALUES
+(1, 'Route A', 'East'),
+(2, 'Route A', 'West'),
+(3, 'Route C', 'West'),
+(4, 'Route E', 'West'),
+(5, 'Route E', 'North'),
+(6, 'Route C', 'West'),
+(7, 'Route E', 'South'),
+(8, 'Route D', 'South'),
+(9, 'Route A', 'South'),
+(10, 'Route B', 'West'),
+(11, 'Route A', 'West'),
+(12, 'Route C', 'North'),
+(13, 'Route E', 'South'),
+(14, 'Route D', 'West'),
+(15, 'Route E', 'East');
+
 INSERT INTO line (ColorType, Name, Direction, Start)
 VALUES 
 ('Teal', 'Al Dhafra Air Base', 'North', 'Pannier'),
