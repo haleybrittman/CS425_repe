@@ -54,6 +54,19 @@ CREATE TABLE Train_stop (
     FOREIGN KEY (Line_Name) REFERENCES Line(Name)
 );
 
+
+
+CREATE TABLE Bus_stops (
+    Stop_Name VARCHAR(30),
+    Route int,
+    Time TIME,
+    Stop_Order INT,
+    ETA TIME,
+    PRIMARY KEY (Stop_Name, Route),
+    FOREIGN KEY (Route) REFERENCES bus_route(route_no) 
+);
+-- Bridge/ extra relations
+
 CREATE TABLE Bus_Bus_route (
     Bus_ID INT,
     Route_no INT,
@@ -61,8 +74,46 @@ CREATE TABLE Bus_Bus_route (
     FOREIGN KEY (Bus_ID) REFERENCES Bus(Bus_ID),
     FOREIGN KEY (Route_no) REFERENCES Bus_route(Route_no)
 );
--- Bridge/ extra relations
 
+CREATE TABLE Train_Line (
+    Train_ID int,
+    ColorType VARCHAR(15),
+    Name VARCHAR(30),
+    Direction VARCHAR(7),
+    PRIMARY KEY (Train_ID, ColorType, Name, Direction)
+);
+
+CREATE TABLE Line_Train_Stops (
+    ColorType VARCHAR(15),
+    Name VARCHAR(30),
+    Direction VARCHAR(7),
+    Station_Name VARCHAR(30),
+    PRIMARY KEY (ColorType, Name, Direction, Station_Name)
+);
+
+CREATE TABLE Bus_Route_Bus_Stops (
+    Stop_name VARCHAR(30),
+    Route_no int,
+    PRIMARY KEY (Stop_name, Route_no)
+);
+
+CREATE TABLE Bus_Stops_Time (
+    SID int,
+    Time TIME,
+    PRIMARY KEY (SID, Time)
+);
+
+CREATE TABLE Bus_Stops_Stop_Order (
+    SID int,
+    Location VARCHAR(30),
+    PRIMARY KEY (SID, Location)
+);
+
+CREATE TABLE Train_Stops_Time (
+    TID int,
+    Time TIME,
+    PRIMARY KEY (TID, Time)
+);
 
 -- Data inserts 
 INSERT INTO Bus(bus_id,bus_type,Wheelchair_accessibility,Capacity)
