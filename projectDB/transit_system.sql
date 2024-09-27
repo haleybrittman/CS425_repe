@@ -79,7 +79,9 @@ CREATE TABLE Train_Line (
     ColorType VARCHAR(15),
     Name VARCHAR(30),
     Direction VARCHAR(7),
-    PRIMARY KEY (Train_ID, ColorType, Name, Direction)
+    PRIMARY KEY (Train_ID, ColorType, Name, Direction),
+    FOREIGN KEY (Train_ID) REFERENCES train(Train_ID),
+    FOREIGN KEY (ColorType, Name, Direction) REFERENCES line(ColorType, Name, Direction)
 );
 
 CREATE TABLE Line_Train_Stops (
