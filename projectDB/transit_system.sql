@@ -111,10 +111,14 @@ CREATE TABLE Bus_Stops_Time (
 
 
 CREATE TABLE Bus_Stops_Stop_Order (
-    SID int,
+    Stop_Name VARCHAR(30),
     Location VARCHAR(30),
-    PRIMARY KEY (SID, Location)
+    Route INT,
+    Stop_Order INT,
+    PRIMARY KEY (stop_name, Location, Route),
+    FOREIGN KEY (stop_name, Route) REFERENCES bus_stops(stop_name, route)
 );
+
 
 CREATE TABLE Train_Stops_Time (
     TID int,
@@ -280,4 +284,21 @@ INSERT INTO Bus_Stops_Time (Stop_Name, Route, Time, ETA) VALUES
 ('Stop13', 13, '10:00:00', ADDTIME('10:00:00', '00:05:00')),
 ('Stop14', 14, '10:10:00', ADDTIME('10:10:00', '00:05:00')),
 ('Stop15', 15, '10:20:00', ADDTIME('10:20:00', '00:05:00'));
+
+INSERT INTO Bus_Stops_Stop_Order (Stop_Name, Location, Route, Stop_Order) VALUES
+('Stop1', 'LocationA', 1, 3),
+('Stop2', 'LocationB', 2, 7),
+('Stop3', 'LocationC', 3, 1),
+('Stop4', 'LocationD', 4, 9),
+('Stop5', 'LocationE', 5, 2),
+('Stop6', 'LocationF', 6, 6),
+('Stop7', 'LocationG', 7, 4),
+('Stop8', 'LocationH', 8, 10),
+('Stop9', 'LocationI', 9, 5),
+('Stop10', 'LocationJ', 10, 8),
+('Stop11', 'LocationK', 11, 11),
+('Stop12', 'LocationL', 12, 12),
+('Stop13', 'LocationM', 13, 13),
+('Stop14', 'LocationN', 14, 14),
+('Stop15', 'LocationO', 15, 15);
 
