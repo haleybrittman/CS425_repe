@@ -313,40 +313,40 @@ INSERT INTO Bus_Route_Bus_Stops (Stop_name, Route_no) VALUES
 ('Stop14', 14),
 ('Stop15', 15);
 
-INSERT INTO Train_stop (Station_Name, Line_Name) VALUES
-('Station 1', 'Franco Bianco'),
-('Station 2', 'DLF'),
-('Station 3', 'Plínio Alarcom'),
-('Station 4', 'Martubah'),
-('Station 5', 'Sidney Municipal'),
-('Station 6', 'Donaldson'),
-('Station 7', 'Garanhuns'),
-('Station 8', 'Gorgan'),
-('Station 9', 'Nyagan'),
-('Station 10', 'Al Dhafra Air Base'),
-('Station 11', 'Esler Regional'),
-('Station 12', 'Phoenix-Mesa-Gateway'),
-('Station 13', 'Wevelgem'),
-('Station 14', 'Kugaaruk'),
-('Station 15', 'Pelaneng');
+INSERT INTO Train_stop (Station_Name, ColorType, Name, Direction) VALUES 
+('Station 1', 'Aquamarine', 'Franco Bianco', 'West'),
+('Station 2', 'Fuscia', 'DLF', 'East'),
+('Station 3', 'Green', 'Plínio Alarcom', 'North'),
+('Station 4', 'Khaki', 'Martubah', 'South'),
+('Station 5', 'Maroon', 'Sidney Municipal', 'West'),
+('Station 6', 'Orange', 'Donaldson', 'North'),
+('Station 7', 'Puce', 'Garanhuns', 'East'),
+('Station 8', 'Puce', 'Gorgan', 'East'),
+('Station 9', 'Purple', 'Nyagan', 'South'),
+('Station 10', 'Teal', 'Al Dhafra Air Base', 'North'),
+('Station 11', 'Teal', 'Esler Regional', 'East'),
+('Station 12', 'Teal', 'Phoenix-Mesa-Gateway', 'South'),
+('Station 13', 'Teal', 'Wevelgem', 'East'),
+('Station 14', 'Violet', 'Kugaaruk', 'West'),
+('Station 15', 'Yellow', 'Pelaneng', 'East');
 
 
-INSERT INTO Train_Stops_Time (TID, Station_Name, Line_Name, Time) VALUES
-(1, 'Station 1', 'Franco Bianco', '08:00:00'),
-(2, 'Station 2', 'DLF', '08:15:00'),
-(3, 'Station 3', 'Plínio Alarcom', '08:30:00'),
-(4, 'Station 4', 'Martubah', '08:45:00'),
-(5, 'Station 5', 'Sidney Municipal', '09:00:00'),
-(6, 'Station 6', 'Donaldson', '09:15:00'),
-(7, 'Station 7', 'Garanhuns', '09:30:00'),
-(8, 'Station 8', 'Gorgan', '09:45:00'),
-(9, 'Station 9', 'Nyagan', '10:00:00'),
-(10, 'Station 10', 'Al Dhafra Air Base', '10:15:00'),
-(11, 'Station 11', 'Esler Regional', '10:30:00'),
-(12, 'Station 12', 'Phoenix-Mesa-Gateway', '10:45:00'),
-(13, 'Station 13', 'Wevelgem', '11:00:00'),
-(14, 'Station 14', 'Kugaaruk', '11:15:00'),
-(15, 'Station 15', 'Pelaneng', '11:30:00');
+INSERT INTO Train_Stops_Time (TID, Station_Name, ColorType, Line_Name, Direction, Time) VALUES 
+(1, 'Station 1', 'Aquamarine', 'Franco Bianco', 'West', '08:00:00'),
+(2, 'Station 2', 'Fuscia', 'DLF', 'East', '08:15:00'),
+(3, 'Station 3', 'Green', 'Plínio Alarcom', 'North', '08:30:00'),
+(4, 'Station 4', 'Khaki', 'Martubah', 'South', '08:45:00'),
+(5, 'Station 5', 'Maroon', 'Sidney Municipal', 'West', '09:00:00'),
+(6, 'Station 6', 'Orange', 'Donaldson', 'North', '09:15:00'),
+(7, 'Station 7', 'Puce', 'Garanhuns', 'East', '09:30:00'),
+(8, 'Station 8', 'Puce', 'Gorgan', 'East', '09:45:00'),
+(9, 'Station 9', 'Purple', 'Nyagan', 'South', '10:00:00'),
+(10, 'Station 10', 'Teal', 'Al Dhafra Air Base', 'North', '10:15:00'),
+(11, 'Station 11', 'Teal', 'Esler Regional', 'East', '10:30:00'),
+(12, 'Station 12', 'Teal', 'Phoenix-Mesa-Gateway', 'South', '10:45:00'),
+(13, 'Station 13', 'Teal', 'Wevelgem', 'East', '11:00:00'),
+(14, 'Station 14', 'Violet', 'Kugaaruk', 'West', '11:15:00'),
+(15, 'Station 15', 'Yellow', 'Pelaneng', 'East', '11:30:00');
 
 INSERT INTO Line_Train_Stops (ColorType, Name, Direction, Station_Name) VALUES
 ('Aquamarine', 'Franco Bianco', 'West', 'Station 1'),
