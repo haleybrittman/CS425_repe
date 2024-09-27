@@ -340,3 +340,21 @@ INSERT INTO Train_Stops_Time (TID, Station_Name, Line_Name, Time) VALUES
 (13, 'Station 13', 'Wevelgem Airport', '11:00:00'),
 (14, 'Station 14', 'Kugaaruk Airport', '11:15:00'),
 (15, 'Station 15', 'Pelaneng Airport', '11:30:00');
+
+INSERT INTO Line_Train_Stops (ColorType, Name, Direction, Station_Name) VALUES
+('Aquamarine', 'Franco Bianco Airport', 'West', 'Station 1'),
+('Fuscia', 'DLF Airport', 'East', 'Station 2'),
+('Green', 'Plínio Alarcom Airport', 'North', 'Station 3'),
+('Khaki', 'Martubah Airport', 'South', 'Station 4'),
+('Maroon', 'Sidney Municipal Airport', 'West', 'Station 5'),
+('Orange', 'Donaldson Airport', 'North', 'Station 6'),
+('Puce', 'Garanhuns Airport', 'East', 'Station 7'),
+('Puce', 'Gorgan Airport', 'East', 'Station 8'),
+('Purple', 'Nyagan Airport', 'South', 'Station 9'),
+('Teal', 'Al Dhafra Air Base', 'North', 'Station 10'),
+('Teal', 'Esler Regional Airport', 'East', 'Station 11'),
+('Teal', 'Phoenix-Mesa-Gateway Airport', 'South', 'Station 12'),
+('Teal', 'Wevelgem Airport', 'East', 'Station 13'),
+('Violet', 'Kugaaruk Airport', 'West', 'Station 14'),
+('Yellow', 'Pelaneng Airport', 'East', 'Station 15');
+
