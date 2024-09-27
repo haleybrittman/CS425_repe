@@ -93,9 +93,12 @@ CREATE TABLE Line_Train_Stops (
 
 CREATE TABLE Bus_Route_Bus_Stops (
     Stop_name VARCHAR(30),
-    Route_no int,
-    PRIMARY KEY (Stop_name, Route_no)
+    Route_no INT,
+    PRIMARY KEY (Stop_name, Route_no),
+    FOREIGN KEY (Stop_name) REFERENCES Bus_stops(stop_Name),
+    FOREIGN KEY (Route_no) REFERENCES Bus_route(route_no)
 );
+
 
 CREATE TABLE Bus_Stops_Time (
     SID int,
