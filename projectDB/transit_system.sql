@@ -59,3 +59,22 @@ CREATE TABLE Bus_Bus_route (
     FOREIGN KEY (Bus_ID) REFERENCES Bus(Bus_ID),
     FOREIGN KEY (Route_no) REFERENCES Bus_route(Route_no)
 );
+
+-- Data inserts 
+INSERT INTO line (ColorType, Name, Direction, Start)
+VALUES 
+('Teal', 'Al Dhafra Air Base', 'North', 'Pannier'),
+('Khaki', 'Martubah Airport', 'South', 'Domainer'),
+('Maroon', 'Sidney Municipal Airport', 'West', 'Transcof'),
+('Fuscia', 'DLF Airport', 'East', 'Rank'),
+('Orange', 'Donaldson Airport', 'North', 'Y-find'),
+('Teal', 'Phoenix-Mesa-Gateway Airport', 'South', 'Bitchip'),
+('Teal', 'Esler Regional Airport', 'East', 'Wrapsafe'),
+('Puce', 'Garanhuns Airport', 'East', 'Flowdesk'),
+('Violet', 'Kugaaruk Airport', 'West', 'Kanlam'),
+('Yellow', 'Pelaneng Airport', 'East', 'Tin'),
+('Aquamarine', 'Franco Bianco Airport', 'West', 'Zamit'),
+('Purple', 'Nyagan Airport', 'South', 'Kanlam'),
+('Puce', 'Gorgan Airport', 'East', 'Veribet'),
+('Teal', 'Wevelgem Airport', 'East', 'Tempsoft'),
+('Green', 'Plínio Alarcom Airport', 'North', 'Daltfresh');
