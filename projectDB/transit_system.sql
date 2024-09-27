@@ -365,4 +365,21 @@ INSERT INTO Line_Train_Stops (ColorType, Name, Direction, Station_Name) VALUES
 ('Violet', 'Kugaaruk', 'West', 'Station 14'),
 ('Yellow', 'Pelaneng', 'East', 'Station 15');
 
+INSERT INTO Train_Line (Train_ID, ColorType, Name, Direction) VALUES
+(741690980, 'Teal', 'Al Dhafra Air Base', 'North'),
+(093499398, 'Khaki', 'Martubah', 'South'),
+(120224397, 'Maroon', 'Sidney Municipal', 'West'),
+(725380068, 'Fuscia', 'DLF', 'East'),
+(989894361, 'Orange', 'Donaldson', 'North'),
+(343794754, 'Teal', 'Phoenix-Mesa-Gateway', 'South'),
+(475798064, 'Teal', 'Esler Regional', 'East'),
+(214635394, 'Puce', 'Garanhuns', 'East'),
+(226444705, 'Violet', 'Kugaaruk', 'West'),
+(714683592, 'Yellow', 'Pelaneng', 'East'),
+(394853906, 'Aquamarine', 'Franco Bianco', 'West'),
+(411061933, 'Purple', 'Nyagan', 'South'),
+(681525652, 'Puce', 'Gorgan', 'East'),
+(669716397, 'Teal', 'Wevelgem', 'East'),
+(262316789, 'Green', 'Plínio Alarcom', 'North');
+
 CREATE INDEX idx_line_name ON Line(Name);
