@@ -56,15 +56,15 @@ CREATE TABLE Train_stop (
 
 
 
+
 CREATE TABLE Bus_stops (
     Stop_Name VARCHAR(30),
-    Route int,
-    Time TIME,
+    Route INT,
     Stop_Order INT,
-    ETA TIME,
     PRIMARY KEY (Stop_Name, Route),
-    FOREIGN KEY (Route) REFERENCES bus_route(route_no) 
+    FOREIGN KEY (Route) REFERENCES bus_route(route_no)
 );
+
 -- Bridge/ extra relations
 
 CREATE TABLE Bus_Bus_route (
@@ -101,10 +101,14 @@ CREATE TABLE Bus_Route_Bus_Stops (
 
 
 CREATE TABLE Bus_Stops_Time (
-    SID int,
+    Stop_Name VARCHAR(30),
+    Route INT,
     Time TIME,
-    PRIMARY KEY (SID, Time)
+    ETA TIME,
+    PRIMARY KEY (Stop_Name, Route, Time),
+    FOREIGN KEY (Stop_Name, Route) REFERENCES Bus_stops(Stop_Name, Route)
 );
+
 
 CREATE TABLE Bus_Stops_Stop_Order (
     SID int,
@@ -242,19 +246,38 @@ INSERT INTO Train_stop (Station_Name, Line_Name, ETA, Time) VALUES
 ('Station 14', 'Kugaaruk Airport', ADDTIME('11:15:00', '00:10:00'), '11:15:00'),
 ('Station 15', 'Pelaneng Airport', ADDTIME('11:30:00', '00:10:00'), '11:30:00');
 
-INSERT INTO Bus_stops (Stop_Name, Route, Time, Stop_Order, ETA) VALUES
-('Stop1', 1, '08:00:00', 1, ADDTIME('08:00:00', '00:05:00')),
-('Stop2', 2, '08:10:00', 2, ADDTIME('08:10:00', '00:05:00')),
-('Stop3', 3, '08:20:00', 3, ADDTIME('08:20:00', '00:05:00')),
-('Stop4', 4, '08:30:00', 4, ADDTIME('08:30:00', '00:05:00')),
-('Stop5', 5, '08:40:00', 5, ADDTIME('08:40:00', '00:05:00')),
-('Stop6', 6, '08:50:00', 6, ADDTIME('08:50:00', '00:05:00')),
-('Stop7', 7, '09:00:00', 7, ADDTIME('09:00:00', '00:05:00')),
-('Stop8', 8, '09:10:00', 8, ADDTIME('09:10:00', '00:05:00')),
-('Stop9', 9, '09:20:00', 9, ADDTIME('09:20:00', '00:05:00')),
-('Stop10', 10, '09:30:00', 10, ADDTIME('09:30:00', '00:05:00')),
-('Stop11', 11, '09:40:00', 11, ADDTIME('09:40:00', '00:05:00')),
-('Stop12', 12, '09:50:00', 12, ADDTIME('09:50:00', '00:05:00')),
-('Stop13', 13, '10:00:00', 13, ADDTIME('10:00:00', '00:05:00')),
-('Stop14', 14, '10:10:00', 14, ADDTIME('10:10:00', '00:05:00')),
-('Stop15', 15, '10:20:00', 15, ADDTIME('10:20:00', '00:05:00'));
+INSERT INTO Bus_stops (Stop_Name, Route, Stop_Order) VALUES
+('Stop1', 1, 1),
+('Stop2', 2, 2),
+('Stop3', 3, 3),
+('Stop4', 4, 4),
+('Stop5', 5, 5),
+('Stop6', 6, 6),
+('Stop7', 7, 7),
+('Stop8', 8, 8),
+('Stop9', 9, 9),
+('Stop10', 10, 10),
+('Stop11', 11, 11),
+('Stop12', 12, 12),
+('Stop13', 13, 13),
+('Stop14', 14, 14),
+('Stop15', 15, 15);
+
+
+INSERT INTO Bus_Stops_Time (Stop_Name, Route, Time, ETA) VALUES
+('Stop1', 1, '08:00:00', ADDTIME('08:00:00', '00:05:00')),
+('Stop2', 2, '08:10:00', ADDTIME('08:10:00', '00:05:00')),
+('Stop3', 3, '08:20:00', ADDTIME('08:20:00', '00:05:00')),
+('Stop4', 4, '08:30:00', ADDTIME('08:30:00', '00:05:00')),
+('Stop5', 5, '08:40:00', ADDTIME('08:40:00', '00:05:00')),
+('Stop6', 6, '08:50:00', ADDTIME('08:50:00', '00:05:00')),
+('Stop7', 7, '09:00:00', ADDTIME('09:00:00', '00:05:00')),
+('Stop8', 8, '09:10:00', ADDTIME('09:10:00', '00:05:00')),
+('Stop9', 9, '09:20:00', ADDTIME('09:20:00', '00:05:00')),
+('Stop10', 10, '09:30:00', ADDTIME('09:30:00', '00:05:00')),
+('Stop11', 11, '09:40:00', ADDTIME('09:40:00', '00:05:00')),
+('Stop12', 12, '09:50:00', ADDTIME('09:50:00', '00:05:00')),
+('Stop13', 13, '10:00:00', ADDTIME('10:00:00', '00:05:00')),
+('Stop14', 14, '10:10:00', ADDTIME('10:10:00', '00:05:00')),
+('Stop15', 15, '10:20:00', ADDTIME('10:20:00', '00:05:00'));
+
