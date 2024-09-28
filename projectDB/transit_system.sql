@@ -434,3 +434,19 @@ BEGIN
   ORDER BY Station_Name;
 END //
 DELIMITER ;
+
+DELIMITER $$
+
+CREATE TRIGGER log_passenger_train_id_change
+BEFORE UPDATE ON Passenger
+FOR EACH ROW
+BEGIN
+    -- Check if Train_ID is being changed
+    IF OLD.Train_ID <> NEW.Train_ID THEN
+        -- Insert a record into the Passenger_TrainID_Log table
+        INSERT INTO Passenger_TrainID_Log (Passenger_ID, Old_Train_ID, New_Train_ID)
+        VALUES (OLD.Passenger_ID, OLD.Train_ID, NEW.Train_ID);
+    END IF;
+END $$
+
+DELIMITER ;
