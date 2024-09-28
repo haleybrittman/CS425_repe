@@ -406,3 +406,31 @@ CREATE VIEW BusView as
  bbr.Route_no = BR.Route_no
  Join bus_stops_time as BST on 
  BBr.route_no = bst.route;
+ 
+ DELIMITER //
+CREATE PROCEDURE update_bus_capacity(
+  IN p_bus_id INT,
+  IN p_new_capacity INT
+)
+BEGIN
+  UPDATE Bus
+  SET Capacity = p_new_capacity
+  WHERE Bus_ID = p_bus_id;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE get_train_line_stations(
+  IN p_color_type VARCHAR(20),
+  IN p_line_name VARCHAR(100),
+  IN p_direction VARCHAR(10)
+)
+BEGIN
+  SELECT Station_Name
+  FROM Train_stop
+  WHERE ColorType = p_color_type
+    AND Name = p_line_name
+    AND Direction = p_direction
+  ORDER BY Station_Name;
+END //
+DELIMITER ;
