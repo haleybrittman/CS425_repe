@@ -436,17 +436,32 @@ END //
 DELIMITER ;
 
 DELIMITER $$
-
 CREATE TRIGGER log_passenger_train_id_change
 BEFORE UPDATE ON Passenger
 FOR EACH ROW
 BEGIN
-    -- Check if Train_ID is being changed
+
     IF OLD.Train_ID <> NEW.Train_ID THEN
-        -- Insert a record into the Passenger_TrainID_Log table
         INSERT INTO Passenger_TrainID_Log (Passenger_ID, Old_Train_ID, New_Train_ID)
         VALUES (OLD.Passenger_ID, OLD.Train_ID, NEW.Train_ID);
     END IF;
 END $$
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE FUNCTION get_bus_passenger_count(bus_id INT)
+RETURNS INT
+DETERMINISTIC
+BEGIN
+  DECLARE passenger_count INT;
+
+  SELECT COUNT(*) INTO passenger_count
+  FROM Passenger
+  WHERE Bus_ID = bus_id;
+
+  RETURN passenger_count;
+END$$
 
 DELIMITER ;
+
