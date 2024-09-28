@@ -504,3 +504,8 @@ BEGIN
     END IF;
 END;
 DELIMITER ;
+
+CREATE TEMPORARY TABLE Temp_Bus AS
+SELECT * FROM Bus;
+Create temporary table temp_train as
+select * from train;
