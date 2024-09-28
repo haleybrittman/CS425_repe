@@ -421,15 +421,15 @@ DELIMITER ;
 
 DELIMITER //
 CREATE PROCEDURE get_train_line_stations(
-  IN p_color_type VARCHAR(20),
-  IN p_line_name VARCHAR(100),
+  IN color_type VARCHAR(20),
+  IN line_name VARCHAR(100),
   IN p_direction VARCHAR(10)
 )
 BEGIN
   SELECT Station_Name
   FROM Train_stop
-  WHERE ColorType = p_color_type
-    AND Name = p_line_name
+  WHERE ColorType = color_type
+    AND Name = line_name
     AND Direction = p_direction
   ORDER BY Station_Name;
 END //
