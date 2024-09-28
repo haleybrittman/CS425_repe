@@ -465,3 +465,42 @@ END$$
 
 DELIMITER ;
 
+DELIMITER $$
+
+CREATE FUNCTION get_train_passenger_count(train_id INT)
+RETURNS INT
+DETERMINISTIC
+BEGIN
+  DECLARE passenger_count INT;
+
+  SELECT COUNT(*) INTO passenger_count
+  FROM Passenger
+  WHERE Train_ID = train_id;
+
+  RETURN passenger_count;
+END$$
+
+DELIMITER ;
+
+CREATE VIEW Active_Passengers AS
+SELECT 
+    Passenger_ID,
+    Name,
+    Bus_ID,
+    Train_ID
+FROM 
+    Passenger
+WHERE 
+    Disabled = FALSE;
+
+DELIMITER $$
+CREATE TRIGGER Prevent_Disabling_Booked_Passengers
+BEFORE UPDATE ON Passenger
+FOR EACH ROW
+BEGIN
+    IF NEW.Disabled = TRUE AND (NEW.Bus_ID IS NOT NULL OR NEW.Train_ID IS NOT NULL) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Cannot disable a passenger with active bookings.';
+    END IF;
+END;
+DELIMITER ;
