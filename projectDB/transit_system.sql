@@ -1,3 +1,5 @@
+DROP DATABASE IF EXISTS transit_system;
+
 create database transit_system;
 use transit_system;
 
@@ -407,7 +409,8 @@ CREATE VIEW BusView as
  Join bus_stops_time as BST on 
  BBr.route_no = bst.route;
  
- DELIMITER //
+DELIMITER $$
+
 CREATE PROCEDURE update_bus_capacity(
   IN p_bus_id INT,
   IN p_new_capacity INT
@@ -416,10 +419,10 @@ BEGIN
   UPDATE Bus
   SET Capacity = p_new_capacity
   WHERE Bus_ID = p_bus_id;
-END //
+END $$
 DELIMITER ;
 
-DELIMITER //
+DELIMITER $$
 CREATE PROCEDURE get_train_line_stations(
   IN color_type VARCHAR(20),
   IN line_name VARCHAR(100),
@@ -432,7 +435,7 @@ BEGIN
     AND Name = line_name
     AND Direction = p_direction
   ORDER BY Station_Name;
-END //
+END $$
 DELIMITER ;
 
 DELIMITER $$
@@ -502,10 +505,8 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Cannot disable a passenger with active bookings.';
     END IF;
-END;
+END $$
 DELIMITER ;
 
-CREATE TEMPORARY TABLE Temp_Bus AS
-SELECT * FROM Bus;
-Create temporary table temp_train as
-select * from train;
+CREATE TEMPORARY TABLE Temp_Bus AS SELECT * FROM Bus;
+CREATE TEMPORARY TABLE Temp_Train AS SELECT * FROM Train;
