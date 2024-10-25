@@ -13,24 +13,76 @@ try:
 
 
     def showTables():
-        cursor.execute("SHOW TABLES")
+        cursor.execute("show full tables where Table_Type != 'VIEW'")
         tables = cursor.fetchall()
         print("\nAvailable tables:")
         for idx, table in enumerate(tables):
             print(f"{idx + 1}. {table[0]}")
         return
 
+    def selectTable():
+        while True:
+            number = input('Which table would you like to use? Enter a number: ')
+            if number == '1':
+                table = 'bus'
+                break
+            elif number == '2':
+                table = 'bus_bus_route'
+                break
+            elif number == '3':
+                table = 'bus_route'
+                break
+            elif number == '4':
+                table = 'bus_route_bus_stops'
+                break
+            elif number == '5':
+                table = 'bus_stops'
+                break
+            elif number == '6':
+                table = 'bus_stops_stop_order'
+                break
+            elif number == '7':
+                table = 'bus_stops_time'
+                break
+            elif number == '8':
+                table = 'line'
+                break
+            elif number == '9':
+                table = 'line_train_stops'
+                break
+            elif number == '10':
+                table = 'passenger'
+                break
+            elif number == '11':
+                table = 'train'
+                break
+            elif number == '12':
+                table = 'train_line'
+                break
+            elif number == '13':
+                table = 'train_stop'
+                break
+            elif number == '14':
+                table = 'train_stops_time'
+                break
+            else:
+                print('Please select a valid number')
+                
+        return table
+
 
     def read_data(table):
-        select_query = "SELECT * FROM {table}"
+        select_query = f"SELECT * FROM {table}"
         cursor.execute(select_query)
         
         # Fetch all the data returned by the database
-        bus_types = cursor.fetchall()
+        rows = cursor.fetchall()
+        column_names = [desc[0] for desc in  cursor.description]
         
         # Print all the data returned by the database
-        for bus_type in bus_types:
-            print(bus_type)
+        print(column_names)
+        for row in rows:
+            print(row)
     def insert_data():
         return
     def update_data():
@@ -46,7 +98,9 @@ try:
 
             menuChoice = input('What would you like to do? ')
             if menuChoice == '1':
-                read_data()
+                showTables()
+                table = selectTable()
+                read_data(table)
             elif menuChoice == '2':
                 insert_data()
             elif menuChoice == '3':
