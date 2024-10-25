@@ -7,6 +7,8 @@ try:
         passwd="Hoplite1", # personal
         db = "transit_system"
     )
+    database.autocommit=True
+    
     if database.is_connected():
         print("Connected to Transit System Database Successfully")
     cursor = database.cursor()
@@ -21,54 +23,30 @@ try:
         return
 
     def selectTable():
+        table_dict = {
+        '1': 'bus',
+        '2': 'bus_bus_route',
+        '3': 'bus_route',
+        '4': 'bus_route_bus_stops',
+        '5': 'bus_stops',
+        '6': 'bus_stops_stop_order',
+        '7': 'bus_stops_time',
+        '8': 'line',
+        '9': 'line_train_stops',
+        '10': 'passenger',
+        '11': 'train',
+        '12': 'train_line',
+        '13': 'train_stop',
+        '14': 'train_stops_time'}
+    
         while True:
             number = input('Which table would you like to use? Enter a number: ')
-            if number == '1':
-                table = 'bus'
-                break
-            elif number == '2':
-                table = 'bus_bus_route'
-                break
-            elif number == '3':
-                table = 'bus_route'
-                break
-            elif number == '4':
-                table = 'bus_route_bus_stops'
-                break
-            elif number == '5':
-                table = 'bus_stops'
-                break
-            elif number == '6':
-                table = 'bus_stops_stop_order'
-                break
-            elif number == '7':
-                table = 'bus_stops_time'
-                break
-            elif number == '8':
-                table = 'line'
-                break
-            elif number == '9':
-                table = 'line_train_stops'
-                break
-            elif number == '10':
-                table = 'passenger'
-                break
-            elif number == '11':
-                table = 'train'
-                break
-            elif number == '12':
-                table = 'train_line'
-                break
-            elif number == '13':
-                table = 'train_stop'
-                break
-            elif number == '14':
-                table = 'train_stops_time'
-                break
+            if number in table_dict:
+                return table_dict[number]
             else:
                 print('Please select a valid number')
                 
-        return table
+        
 
 
     def read_data(table):
@@ -86,7 +64,14 @@ try:
     def insert_data():
         return
     def update_data():
-        return
+        update_query = """UPDATE bus_route SET Direction = "North" WHERE name = "Route"""
+        
+        cursor.execute(update_query)
+
+        bus_route = cursor.fetchall()
+
+        for bus_route in bus_route:
+            print(bus_route)
     def delete_data():
         return
 
