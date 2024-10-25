@@ -13,10 +13,16 @@ try:
 
 
     def showTables():
-        query= "SHOW TABLES"
+        cursor.execute("SHOW TABLES")
+        tables = cursor.fetchall()
+        print("\nAvailable tables:")
+        for idx, table in enumerate(tables):
+            print(f"{idx + 1}. {table[0]}")
+        return
 
-    def read_data():
-        select_query = "SELECT Bus_Type FROM bus"
+
+    def read_data(table):
+        select_query = "SELECT * FROM {table}"
         cursor.execute(select_query)
         
         # Fetch all the data returned by the database
@@ -25,16 +31,35 @@ try:
         # Print all the data returned by the database
         for bus_type in bus_types:
             print(bus_type)
+    def insert_data():
+        return
+    def update_data():
+        return
+    def delete_data():
+        return
 
     def main():
         while True:
-            print('Menu\n1. Read a table\'s data')
+            print('\nMenu\n1. Read a table\'s data')
             print('2. Insert data into a table\n3. Update data in a table\n4. Delete data')
             print('5. Show all tables\n6. Exit')
 
-            menuChoice = input('What would you like to do?')
-            if menuChoice == 1:
+            menuChoice = input('What would you like to do? ')
+            if menuChoice == '1':
                 read_data()
+            elif menuChoice == '2':
+                insert_data()
+            elif menuChoice == '3':
+                update_data()
+            elif menuChoice == '4':
+                delete_data()
+            elif menuChoice == '5':
+                showTables()
+            elif menuChoice == '6':
+                break
+            else:
+                print('Please choose a valid option')
+            
     if __name__ == "__main__":
         main()
 except mysql.connector.Error as e:
