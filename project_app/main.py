@@ -61,18 +61,23 @@ try:
         print(column_names)
         for row in rows:
             print(row)
-    def insert_data():
+
+    def insert_data(table):
         return
-    def update_data():
-        update_query = """UPDATE bus_route SET Direction = "North" WHERE name = "Route"""
+    def update_data(table):
+        column= input('Update which column? ')
+        column_content= input('Set the column to what? ')
+        row_change= input('Where... ')
+        row_content=input('equals... ')
+        update_query = f"UPDATE {table} SET {column} = {column_content} WHERE {row_change} = {row_content}"
         
-        cursor.execute(update_query)
+        try:
+            cursor.execute(update_query)
+        except Exception as e:
+            print('Error:', e)
 
-        bus_route = cursor.fetchall()
 
-        for bus_route in bus_route:
-            print(bus_route)
-    def delete_data():
+    def delete_data(table):
         return
 
     def main():
@@ -87,11 +92,14 @@ try:
                 table = selectTable()
                 read_data(table)
             elif menuChoice == '2':
-                insert_data()
+                table = selectTable()
+                insert_data(table)
             elif menuChoice == '3':
-                update_data()
+                table = selectTable()
+                update_data(table)
             elif menuChoice == '4':
-                delete_data()
+                table = selectTable()
+                delete_data(table)
             elif menuChoice == '5':
                 showTables()
             elif menuChoice == '6':
