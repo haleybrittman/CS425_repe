@@ -85,6 +85,7 @@ try:
         
         try:
             cursor.execute(insert_query)
+            print("Insertion successful")
         except Exception as e:
             print('Error:', e)
 
@@ -94,10 +95,11 @@ try:
         column_content= input('Set the column to what? ')
         row_change= input('Where... ')
         row_content=input('equals... ')
-        update_query = f"UPDATE {table} SET {column} = {column_content} WHERE {row_change} = {row_content}"
+        update_query = f"UPDATE {table} SET {column} = %s WHERE {row_change} = %s"
         
         try:
-            cursor.execute(update_query)
+            cursor.execute(update_query, (column_content, row_content))
+            print(f"Updated {column} to {column_content} from {table} where {row_change} = {row_content}")
         except Exception as e:
             print('Error:', e)
 
