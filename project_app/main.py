@@ -78,7 +78,14 @@ try:
 
 
     def delete_data(table):
-        return
+        row_delete= input('Delete from '+table+' where... ')
+        row_content=input('equals... ')
+        delete_query = f"DELETE FROM {table} WHERE {row_delete} = {row_content}"
+        
+        try:
+            cursor.execute(delete_query)
+        except Exception as e:
+            print('Error:', e)
 
     def main():
         while True:
