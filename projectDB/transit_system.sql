@@ -31,8 +31,8 @@ CREATE TABLE Passenger (
     Phone_Number VARCHAR(15),
     Bus_ID INT,
     Train_ID INT,
-    FOREIGN KEY (Bus_ID) REFERENCES Bus(Bus_ID),
-    FOREIGN KEY (Train_ID) REFERENCES Train(Train_ID)
+    FOREIGN KEY (Bus_ID) REFERENCES Bus(Bus_ID) On DELETE cascade,
+    FOREIGN KEY (Train_ID) REFERENCES Train(Train_ID) On DELETE cascade
 );
 
 CREATE TABLE Line (
@@ -51,7 +51,7 @@ CREATE TABLE Train_stop (
     Name VARCHAR(100),
     Direction VARCHAR(10),
     PRIMARY KEY (Station_Name, ColorType, Name, Direction),
-    FOREIGN KEY (ColorType, Name, Direction) REFERENCES Line(ColorType, Name, Direction)
+    FOREIGN KEY (ColorType, Name, Direction) REFERENCES Line(ColorType, Name, Direction)  On DELETE cascade
 );
 
 
@@ -63,7 +63,7 @@ CREATE TABLE Bus_stops (
     Route INT,
     Stop_Order INT,
     PRIMARY KEY (Stop_Name, Route),
-    FOREIGN KEY (Route) REFERENCES bus_route(route_no)
+    FOREIGN KEY (Route) REFERENCES bus_route(route_no) On DELETE cascade
 );
 
 -- Bridge/ extra relations
@@ -72,8 +72,8 @@ CREATE TABLE Bus_Bus_route (
     Bus_ID INT,
     Route_no INT,
     PRIMARY KEY (Bus_ID, Route_no),
-    FOREIGN KEY (Bus_ID) REFERENCES Bus(Bus_ID),
-    FOREIGN KEY (Route_no) REFERENCES Bus_route(Route_no)
+    FOREIGN KEY (Bus_ID) REFERENCES Bus(Bus_ID) On DELETE cascade,
+    FOREIGN KEY (Route_no) REFERENCES Bus_route(Route_no) On DELETE cascade
 );
 
 CREATE TABLE Train_Line (
@@ -82,8 +82,8 @@ CREATE TABLE Train_Line (
     Name VARCHAR(30),
     Direction VARCHAR(7),
     PRIMARY KEY (Train_ID, ColorType, Name, Direction),
-    FOREIGN KEY (Train_ID) REFERENCES train(Train_ID),
-    FOREIGN KEY (ColorType, Name, Direction) REFERENCES line(ColorType, Name, Direction)
+    FOREIGN KEY (Train_ID) REFERENCES train(Train_ID) On DELETE cascade,
+    FOREIGN KEY (ColorType, Name, Direction) REFERENCES line(ColorType, Name, Direction) On DELETE cascade
 );
 
 CREATE TABLE Line_Train_Stops (
@@ -92,16 +92,16 @@ CREATE TABLE Line_Train_Stops (
     Direction VARCHAR(7),
     Station_Name VARCHAR(100),
     PRIMARY KEY (ColorType, Name, Direction, Station_Name),
-    FOREIGN KEY (ColorType, Name, Direction) REFERENCES line(ColorType, Name, Direction),
-    FOREIGN KEY (Station_Name) REFERENCES train_stop(Station_Name)
+    FOREIGN KEY (ColorType, Name, Direction) REFERENCES line(ColorType, Name, Direction) On DELETE cascade,
+    FOREIGN KEY (Station_Name) REFERENCES train_stop(Station_Name) On DELETE cascade
 );
 
 CREATE TABLE Bus_Route_Bus_Stops (
     Stop_name VARCHAR(30),
     Route_no INT,
     PRIMARY KEY (Stop_name, Route_no),
-    FOREIGN KEY (Stop_name) REFERENCES Bus_stops(stop_Name),
-    FOREIGN KEY (Route_no) REFERENCES Bus_route(route_no)
+    FOREIGN KEY (Stop_name) REFERENCES Bus_stops(stop_Name) On DELETE cascade,
+    FOREIGN KEY (Route_no) REFERENCES Bus_route(route_no) On DELETE cascade
 );
 
 
@@ -111,7 +111,7 @@ CREATE TABLE Bus_Stops_Time (
     Time TIME,
     ETA TIME,
     PRIMARY KEY (Stop_Name, Route, Time),
-    FOREIGN KEY (Stop_Name, Route) REFERENCES Bus_stops(Stop_Name, Route)
+    FOREIGN KEY (Stop_Name, Route) REFERENCES Bus_stops(Stop_Name, Route) On DELETE cascade
 );
 
 
@@ -121,7 +121,7 @@ CREATE TABLE Bus_Stops_Stop_Order (
     Route INT,
     Stop_Order INT,
     PRIMARY KEY (stop_name, Location, Route),
-    FOREIGN KEY (stop_name, Route) REFERENCES bus_stops(stop_name, route)
+    FOREIGN KEY (stop_name, Route) REFERENCES bus_stops(stop_name, route) On DELETE cascade
 );
 
 
@@ -133,7 +133,7 @@ CREATE TABLE Train_Stops_Time (
     Direction VARCHAR(10),
     Time TIME,
     PRIMARY KEY (TID, Station_Name, Line_Name, Time),
-    FOREIGN KEY (Station_Name, ColorType, Line_Name, Direction) REFERENCES Train_stop(Station_Name, ColorType, Name, Direction)
+    FOREIGN KEY (Station_Name, ColorType, Line_Name, Direction) REFERENCES Train_stop(Station_Name, ColorType, Name, Direction) On DELETE cascade
 );
 
 
