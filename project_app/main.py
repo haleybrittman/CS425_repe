@@ -1,10 +1,11 @@
 import mysql.connector
 
+database=None
 try:
     database = mysql.connector.connect(
         host="localhost",
         user="root",
-        passwd="Hoplite1", # personal
+        passwd=input("Enter your database password "), # personal
         db = "transit_system"
     )
     database.autocommit=True
@@ -115,23 +116,6 @@ try:
                 print(f"Deleted rows from {table} where {row_delete} = {row_content}")
             except Exception as e:
                 print('Error:', e)
-    
-
-
-
-
-
-    '''
-    def delete_data(table): # Delete function. Delete a row
-        row_delete= input('Delete from '+table+' where... ')
-        row_content=input('equals... ')
-        delete_query = f"DELETE FROM {table} WHERE {row_delete} = {row_content}"
-        
-        try:
-            cursor.execute(delete_query)
-        except Exception as e:
-            print('Error:', e)
-    '''
 
     
     def main(): # Main function. Displays menu until user exits
@@ -163,14 +147,22 @@ try:
             
     if __name__ == "__main__":
         main()
-except mysql.connector.Error as e:
-    print("Error:", e)
+except mysql.connector.Error as err:
+    if err.errno == mysql.connector.errorcode.ER_ACCESS_DENIED_ERROR:
+        print("There is an error with your username or password")
+    elif err.errno == mysql.connector.errorcode.ER_BAD_DB_ERROR:
+        print("Database does not exist")
+    else:
+        print(err)
 
 
 
 finally:
     # Close DB connection
-    if database.is_connected():
-        cursor.close()
-        database.close()
-        print("Closed connection to Transit System Database.")
+    try:
+        if database.is_connected():
+            cursor.close()
+            database.close()
+            print("Closed connection to Transit System Database.")
+    except:
+        print('')
