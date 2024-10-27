@@ -100,7 +100,28 @@ try:
         except Exception as e:
             print('Error:', e)
 
+"""
+    def delete_data(table):
+            """Delete a row from a specified table based on user input."""
+            row_delete = input('Delete from ' + table + ' where column name is: ')
+            row_content = input('Value to delete for this column: ')
+    
+            # Parameterized delete query
+            delete_query = f"DELETE FROM {table} WHERE {row_delete} = {row_content}"
+            
+            try:
+                cursor.execute(delete_query, (row_content,))
+                database.commit()  # Commit changes to finalize the deletion
+                print(f"Deleted rows from {table} where {row_delete} = {row_content}")
+            except Exception as e:
+                print('Error:', e)
+"""
 
+
+
+
+
+    
     def delete_data(table): # Delete function. Delete a row
         row_delete= input('Delete from '+table+' where... ')
         row_content=input('equals... ')
@@ -111,6 +132,7 @@ try:
         except Exception as e:
             print('Error:', e)
 
+    
     def main(): # Main function. Displays menu until user exits
         while True:
             print('\nMenu\n1. Read a table\'s data')
