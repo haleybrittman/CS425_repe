@@ -1,6 +1,17 @@
 # Transit System Application README
 
-## Requirements
+## Description
+This project is designed to manage a transit system, handling components such as buses, trains, routes, stops, and passenger information. It provides a structured database and backend logic for efficient transit management, route planning, and passenger service.
+
+## Table of Contents
+Installation
+Introduction
+Setup & Database Generation
+Notes
+Feature/ Menu Options
+Contributors
+
+## Installation
 IDE Application (VScode, Eclipse)
 Python Installation
 SQL connector installation
@@ -49,4 +60,5 @@ Allows for the deleting of rows from a specified table based on user input.
 ## Contributors:
 Zachariah Watson
 Haley Brittman
+Nikhitha Chintakuntla
 
