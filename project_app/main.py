@@ -1,170 +1,170 @@
+import tkinter as tk
+from tkinter import ttk, messagebox, simpledialog
 import mysql.connector
 
-database=None
-try:
-    database = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        passwd=input("Enter your database password "), # personal
-        db = "transit_system"
-    )
-    database.autocommit=True
-    
-    if database.is_connected():
-        print("Connected to Transit System Database Successfully")
-    cursor = database.cursor()
 
+class TransitSystem:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Transit System Database")
+        self.database = None
 
-    def showTables(): # Displays tables excluding views
-        cursor.execute("show full tables where Table_Type != 'VIEW'")
-        tables = cursor.fetchall()
-        print("\nAvailable tables:")
-        for idx, table in enumerate(tables):
-            print(f"{idx + 1}. {table[0]}")
-        return
+        # Connect to the database
+        try:
+            password = simpledialog.askstring("Database Connection", "Enter your database password:", show='*')
+            self.database = mysql.connector.connect(
+                host="localhost",
+                user="root",
+                passwd=password,
+                db="transit_system"
+            )
+            self.database.autocommit = True
 
-    def selectTable(): # Reused for options so user can select which table they're using for the option
+            if self.database.is_connected():
+                messagebox.showinfo("Connection", "Connected to Transit System Database Successfully")
+                self.cursor = self.database.cursor()
+        except mysql.connector.Error as err:
+            messagebox.showerror("Database Error", str(err))
+            raise SystemExit("Database connection failed.")
+
+        # Create the GUI
+        self.create_gui()
+
+    def create_gui(self):
+        # Menu Options
+        menu_frame = ttk.LabelFrame(self.root, text="Options")
+        menu_frame.grid(row=0, column=0, padx=10, pady=10, sticky="ew")
+
+        ttk.Button(menu_frame, text="Show Tables", command=self.showTables).grid(row=0, column=0, padx=5, pady=5)
+        ttk.Button(menu_frame, text="Read Data", command=self.read_data).grid(row=0, column=1, padx=5, pady=5)
+        ttk.Button(menu_frame, text="Insert Data", command=self.insert_data).grid(row=0, column=2, padx=5, pady=5)
+        ttk.Button(menu_frame, text="Update Data", command=self.update_data).grid(row=0, column=3, padx=5, pady=5)
+        ttk.Button(menu_frame, text="Delete Data", command=self.delete_data).grid(row=0, column=4, padx=5, pady=5)
+
+        # Output Textbox
+        self.textbox = tk.Text(self.root, wrap="word", height=20, width=80)
+        self.textbox.grid(row=1, column=0, padx=10, pady=10)
+
+    def showTables(self): # Displays tables excluding views
+        try:
+            self.cursor.execute("SHOW FULL TABLES WHERE Table_Type != 'VIEW'")
+            tables = self.cursor.fetchall()
+            self.textbox.config(state='normal')
+            self.textbox.delete(1.0, tk.END)
+            self.textbox.insert(tk.END, "Available Tables:\n")
+            for idx, table in enumerate(tables):
+                self.textbox.insert(tk.END, f"{idx + 1}. {table[0]}\n")
+            self.textbox.config(state='disabled')
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
+
+    def selectTable(self): # Reused for options so user can select which table they're using for the option
         table_dict = {
-        '1': 'bus',
-        '2': 'bus_bus_route',
-        '3': 'bus_route',
-        '4': 'bus_route_bus_stops',
-        '5': 'bus_stops',
-        '6': 'bus_stops_stop_order',
-        '7': 'bus_stops_time',
-        '8': 'line',
-        '9': 'line_train_stops',
-        '10': 'passenger',
-        '11': 'train',
-        '12': 'train_line',
-        '13': 'train_stop',
-        '14': 'train_stops_time'}
-    
-        while True: # Error checking for invalid number
-            number = input('Which table would you like to use? Enter a number: ')
-            if number in table_dict:
-                print('')
-                return table_dict[number]
-            else:
-                print('Please select a valid number')
-                
-        
+            '1': 'bus',
+            '2': 'bus_bus_route',
+            '3': 'bus_route',
+            '4': 'bus_route_bus_stops',
+            '5': 'bus_stops',
+            '6': 'bus_stops_stop_order',
+            '7': 'bus_stops_time',
+            '8': 'line',
+            '9': 'line_train_stops',
+            '10': 'passenger',
+            '11': 'train',
+            '12': 'train_line',
+            '13': 'train_stop',
+            '14': 'train_stops_time'
+        }
+        choice = simpledialog.askstring("Select Table", "Choose a table number:\n" + "\n".join(
+            [f"{key}. {value}" for key, value in table_dict.items()]))
+
+        if choice in table_dict:  # Error checking for valid number
+            return table_dict[choice]
+
+        # Invalid number
+        messagebox.showerror("Invalid Selection", "Please select a valid number.")
 
 
-    def read_data(table): # Read function. Reads data
-        select_query = f"SELECT * FROM {table}"
-        cursor.execute(select_query)
-        
-        # Fetch all the data returned by the database
-        rows = cursor.fetchall()
-        column_names = [desc[0] for desc in  cursor.description]
-        
-        # Print all the data returned by the database
-        print(column_names)
-        for row in rows:
-            print(row)
+    def read_data(self): # Read function. Reads data
+        table = self.selectTable()
+        if not table:
+            return
 
-    def insert_data(table): # Create function. Insertion of data
-        table_dict={ # Error checking is handled by selectTable()
-        'bus':'(bus_id,bus_type,Wheelchair_accessibility,Capacity)',
-        'bus_bus_route':'(Bus_ID, Route_no)',
-        'bus_route':'(route_no, name, direction)',
-        'bus_route_bus_stops':'(Stop_name, Route_no)',
-        'bus_stops':'(Stop_Name, Route, Stop_Order)',
-        'bus_stops_stop_order':'(Stop_Name, Location, Route, Stop_Order)',
-        'bus_stops_time':'(Stop_Name, Route, Time, ETA)',
-        'line':'(ColorType, Name, Direction, Start)',
-        'line_train_stops':'(ColorType, Name, Direction, Station_Name)',
-        'passenger':'(Name, Passenger_ID, Disabled, Phone_Number, train_id, bus_id)',
-        'train':'(Train_ID, Capacity)',
-        'train_line':'(Train_ID, ColorType, Name, Direction)',
-        'train_stop':'(Station_Name, ColorType, Name, Direction)',
-        'train_stops_time':'(TID, Station_Name, ColorType, Line_Name, Direction, Time)'}
-        values=input(f'Input values in the following format: {table_dict[table]}: ')
-        insert_query = f"INSERT INTO {table} VALUES {values}"
-        
         try:
-            cursor.execute(insert_query)
-            print("Insertion successful")
+            self.cursor.execute(f"SELECT * FROM {table}")
+            rows = self.cursor.fetchall() # Fetch all the data returned by the database
+            column_names = [desc[0] for desc in self.cursor.description]
+            self.textbox.config(state='normal')
+            self.textbox.delete(1.0, tk.END)
+            self.textbox.insert(tk.END, f"Data from {table}:\n")
+            self.textbox.insert(tk.END, f"{column_names}\n")
+            for row in rows: # Insert data into textbox
+                self.textbox.insert(tk.END, f"{row}\n")
+            self.textbox.config(state='disabled')
         except Exception as e:
-            print('Error:', e)
+            messagebox.showerror("Error", str(e))
 
+    def insert_data(self): # Create function. Insertion of data
+        table = self.selectTable() # Error checking is handled by selectTable()
+        if not table:
+            return
 
-    def update_data(table): # Update function. Updates data in a row
-        column= input('Update which column? ')
-        column_content= input('Set the column to what? ')
-        row_change= input('Where... ')
-        row_content=input('equals... ')
+        values = simpledialog.askstring("Insert Data", f"Input values for {table}:")
+        if not values:
+            messagebox.showerror("Invalid Selection", "Please provide valid input.")
+            return
+
+        insert_query = f"INSERT INTO {table} VALUES ({values})"
+        try:
+            self.textbox.config(state='normal')
+            self.cursor.execute(insert_query)
+            self.textbox.config(state='disabled')
+            messagebox.showinfo("Success", "Data inserted successfully")
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
+
+    def update_data(self): # Update function. Updates data in a row
+        table = self.selectTable()
+        if not table:
+            return
+
+        column = simpledialog.askstring("Update Data", "Update which column?")
+        column_content = simpledialog.askstring("Update Data", "Set the column to what?")
+        row_change = simpledialog.askstring("Update Data", "Where column:")
+        row_content = simpledialog.askstring("Update Data", "Equals:")
+
         update_query = f"UPDATE {table} SET {column} = %s WHERE {row_change} = %s"
-        
         try:
-            cursor.execute(update_query, (column_content, row_content))
-            print(f"Updated {column} to {column_content} from {table} where {row_change} = {row_content}")
+            self.cursor.execute(update_query, (column_content, row_content))
+            messagebox.showinfo("Success", f"Updated {column} in {table}")
         except Exception as e:
-            print('Error:', e)
+            messagebox.showerror("Error", str(e))
 
-    
-    def delete_data(table):
-            # Delete a row from a specified table based on user input.
-            row_delete = input('Delete from ' + table + ' where column name is: ')
-            row_content = input('Value to delete for this column: ')
-    
-            # Parameterized delete query
-            delete_query = f"DELETE FROM {table} WHERE {row_delete} = %s"
-            
-            try:
-                cursor.execute(delete_query, (row_content,))
-                database.commit()  # Commit changes to finalize the deletion
-                print(f"Deleted rows from {table} where {row_delete} = {row_content}")
-            except Exception as e:
-                print('Error:', e)
+    def delete_data(self): # Delete a row from a specified table based on user input.
+        table = self.selectTable()
+        if not table:
+            return
 
-    
-    def main(): # Main function. Displays menu until user exits
-        while True:
-            print('\nMenu\n1. Read a table\'s data')
-            print('2. Insert data into a table\n3. Update data in a table\n4. Delete data')
-            print('5. Show all tables\n6. Exit')
+        row_delete = simpledialog.askstring("Delete Data", f"Delete from {table} where column:")
+        row_content = simpledialog.askstring("Delete Data", "Value:")
 
-            menuChoice = input('What would you like to do? ')
-            if menuChoice == '1':
-                showTables()
-                table = selectTable()
-                read_data(table)
-            elif menuChoice == '2':
-                table = selectTable()
-                insert_data(table)
-            elif menuChoice == '3':
-                table = selectTable()
-                update_data(table)
-            elif menuChoice == '4':
-                table = selectTable()
-                delete_data(table)
-            elif menuChoice == '5':
-                showTables()
-            elif menuChoice == '6':
-                break
-            else:
-                print('Please choose a valid option')
-            
-    if __name__ == "__main__":
-        main()
-except mysql.connector.Error as err:
-    if err.errno == mysql.connector.errorcode.ER_ACCESS_DENIED_ERROR:
-        print("There is an error with your username or password")
-    elif err.errno == mysql.connector.errorcode.ER_BAD_DB_ERROR:
-        print("Database does not exist")
-    else:
-        print(err)
+        delete_query = f"DELETE FROM {table} WHERE {row_delete} = %s"
+        try:
+            self.cursor.execute(delete_query, (row_content,))
+            messagebox.showinfo("Success", "Data deleted successfully")
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
+
+    def on_closing(self): # handle closing of GUI 
+        if self.database and self.database.is_connected():
+            self.cursor.close()
+            self.database.close() # Close DB connection
+            print("Database connection closed")
+        self.root.destroy() # Remove GUI
 
 
-
-finally:
-    # Close DB connection
-    try:
-        if database.is_connected():
-            cursor.close()
-            database.close()
-            print("Closed connection to Transit System Database.")
-    except:
-        print('')
+if __name__ == "__main__": 
+    root = tk.Tk()
+    app = TransitSystem(root)
+    root.protocol("WM_DELETE_WINDOW", app.on_closing)
+    root.mainloop()
