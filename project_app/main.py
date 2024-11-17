@@ -182,13 +182,18 @@ class TransitSystem:
 
             "Find the most frequent stop for each bus route.": """
             WITH StopFrequency AS (
-            SELECT Stop_Name, Route, COUNT(*) AS Frequency
-            FROM Bus_Stops_Stop_Order
-            GROUP BY Stop_Name, Route
+                SELECT Stop_Name, Route, COUNT(*) AS Frequency
+                FROM Bus_stops
+                GROUP BY Stop_Name, Route
             )
-            SELECT Route, Stop_Name, MAX(Frequency) AS MaxFrequency
-            FROM StopFrequency
-            GROUP BY Route;
+            SELECT Route, Stop_Name, Frequency AS MaxFrequency
+            FROM StopFrequency sf1
+            WHERE Frequency = (
+                SELECT MAX(Frequency)
+                FROM StopFrequency sf2
+                WHERE sf1.Route = sf2.Route
+            )
+            ORDER BY Route, MaxFrequency DESC;
             """,
 
             "Calculate the average, minimum, and maximum capacity of all trains.": """
@@ -214,12 +219,8 @@ class TransitSystem:
             "List all Teal line trains going East.": """
             SELECT Train_ID, ColorType, Station_Name, Time
             FROM TrainView
-            WHERE ColorType = 'Teal' AND Direction = 'East'
+            WHERE ColorType = 'Teal'
             ORDER BY Time;
-            """,
-
-            "Update bus capacity": """
-            CALL update_bus_capacity(1, 35);
             """,
 
             "Show train lines that have more than 3 distinct stations.": """
@@ -239,14 +240,92 @@ class TransitSystem:
             AND Line.Name = Line_Train_Stops.Name
             AND Line.Direction = Line_Train_Stops.Direction
             );
+                    """,
+
+            "Busiest train stations": """
+            WITH StationStopCount AS (
+                SELECT Station_Name, COUNT(*) AS StopCount
+                FROM Train_Stops_Time
+                GROUP BY Station_Name
+            ),
+            MaxStopCount AS (
+                SELECT MAX(StopCount) AS MaxStops
+                FROM StationStopCount
+            )
+            SELECT s.Station_Name, s.StopCount
+            FROM StationStopCount s, MaxStopCount m
+            WHERE s.StopCount = m.MaxStops;
+            """,
+
+            "Bus route efficiency": """
+            WITH RouteTimes AS (
+                SELECT Route, 
+                    MIN(Time) AS StartTime, 
+                    MAX(ETA) AS EndTime,
+                    COUNT(*) AS StopCount
+                FROM Bus_Stops_Time
+                GROUP BY Route
+            )
+            SELECT Route, 
+                StopCount,
+                TIMEDIFF(EndTime, StartTime) AS TotalTime,
+                StopCount / TIME_TO_SEC(TIMEDIFF(EndTime, StartTime)) * 3600 AS StopsPerHour
+            FROM RouteTimes
+            ORDER BY StopsPerHour DESC;
+            """,
+
+            "Passenger distribution across vehicle types and disability status": """
+            SELECT 
+                CASE 
+                    WHEN Bus_ID IS NOT NULL THEN 'Bus'
+                    WHEN Train_ID IS NOT NULL THEN 'Train'
+                    ELSE 'Unassigned'
+                END AS VehicleType,
+                Disabled,
+                COUNT(*) AS PassengerCount
+            FROM Passenger
+            GROUP BY 
+                CASE 
+                    WHEN Bus_ID IS NOT NULL THEN 'Bus'
+                    WHEN Train_ID IS NOT NULL THEN 'Train'
+                    ELSE 'Unassigned'
+                END,
+                Disabled
+            WITH ROLLUP;
+            """,
+
+            "Busiest hour for each train line": """
+            WITH HourlyStops AS (
+                SELECT 
+                    ColorType,
+                    Line_Name,
+                    HOUR(Time) AS Hour,
+                    COUNT(*) AS StopCount
+                FROM Train_Stops_Time
+                GROUP BY ColorType, Line_Name, HOUR(Time)
+            ),
+            RankedHours AS (
+                SELECT 
+                    ColorType,
+                    Line_Name,
+                    Hour,
+                    StopCount,
+                    RANK() OVER (PARTITION BY ColorType, Line_Name ORDER BY StopCount DESC) AS B_Rank
+                FROM HourlyStops
+            )
+            SELECT ColorType, Line_Name, Hour AS BusiestHour, StopCount
+            FROM RankedHours
+            WHERE B_Rank = 1
+            ORDER BY StopCount DESC;
             """
+
         }
         special_pane = tk.Toplevel(self.root)
         special_pane.title("Advanced Queries")
-        special_pane.geometry("500x400")
+        special_pane.geometry("500x350")
         
         # Create a listbox to display queries
-        listbox = tk.Listbox(special_pane, height=20, width=70)
+        listbox = tk.Listbox(special_pane, height=15, width=100)
         listbox.pack(padx=10, pady=10)
 
         # Populate the listbox with query names
