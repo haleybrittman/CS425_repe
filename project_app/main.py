@@ -135,6 +135,9 @@ class TransitSystem:
         row_content = simpledialog.askstring("Update Data", "Equals:")
 
         update_query = f"UPDATE {table} SET {column} = %s WHERE {row_change} = %s"
+        if not column or not column_content or not row_change or not row_content: # Error checking for "proper" but empty queries
+            messagebox.showerror("Error", "Please ente valid data")
+            return
         try:
             self.cursor.execute(update_query, (column_content, row_content))
             messagebox.showinfo("Success", f"Updated {column} in {table}")
@@ -150,6 +153,9 @@ class TransitSystem:
         row_content = simpledialog.askstring("Delete Data", "Value:")
 
         delete_query = f"DELETE FROM {table} WHERE {row_delete} = %s"
+        if not row_delete or not row_content: # Error checking for "proper" but empty queries
+            messagebox.showerror("Error", "Please ente valid data")
+            return
         try:
             self.cursor.execute(delete_query, (row_content,))
             messagebox.showinfo("Success", "Data deleted successfully")

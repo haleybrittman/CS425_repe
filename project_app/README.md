@@ -53,7 +53,8 @@ Allows users to update data in rows of any table
 Deleting Data:
 Allows for the deleting of rows from a specified table based on user input.
 
-
+Special Queries:
+These are preset advanced queries with descriptions.
 
 
 
